@@ -1,7 +1,6 @@
-package main
+package wmgo
 
 import (
-	"fmt"
 	"testing"
 
 	"gopkg.in/mgo.v2/bson"
@@ -19,7 +18,6 @@ func TestEngine(t *testing.T) {
 
 	m.Name = "A"
 	m.Insert()
-	fmt.Printf("!%s\n", m.Id)
 	m.Name = "B"
 	err := m.Upsert(bson.M{"_id": m.Id})
 	if err != nil {

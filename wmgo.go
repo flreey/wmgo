@@ -1,7 +1,8 @@
-package main
+package wmgo
 
 import (
 	"reflect"
+	"strings"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -22,11 +23,13 @@ func (self *Engine) Register(obj interface{}) interface{} {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		panic("should be ptr")
 	}
+
 	v := reflect.ValueOf(obj).Elem()
 	if _, ok := reflect.TypeOf(obj).Elem().FieldByName("Id"); ok {
 		v.FieldByName("Id").Set(reflect.ValueOf(bson.NewObjectId().Hex()))
 	}
-	coll := self.db.C(reflect.TypeOf(obj).Elem().Name())
+
+	coll := self.db.C(strings.ToLower(reflect.TypeOf(obj).Elem().Name()))
 	v.FieldByName("context").Set(reflect.ValueOf(&context{coll, obj}))
 	return obj
 }

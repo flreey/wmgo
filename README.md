@@ -1,10 +1,6 @@
 Wrap gopkg.in/mgo.v2
 
-usage:
-
-	e := NewEngine("", "test")
-	m := e.Register(new(Model)).(*Model)
-	m.Insert()
-
-	q := bson.M{"_id": ""}
-	m.Upsert(q)
+字段说明:
+ref: 外链表, 格式为:collction_name.bson_tag
+link: 中间表名
+foreign:中间表被引用的字段格式与ref相同
